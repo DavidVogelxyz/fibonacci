@@ -35,23 +35,15 @@ fn fibonacci() {
             continue;
         }
 
-        let user_input = user_input - 1;
-
-        let mut count = 0;
         let mut fib: u128 = 1;
         let mut l = 0;
         let mut r = 1;
 
-        while count < user_input {
+        for _ in 2..= user_input {
             fib = l + r;
             l = r;
             r = fib;
-            count += 1;
-            // to watch the program iterate, uncomment the following:
-            //println!("{fib}");
         }
-
-        let user_input = user_input + 1;
 
         let fib = fib.to_string()
             .as_bytes()
