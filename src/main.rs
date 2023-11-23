@@ -1,10 +1,8 @@
+mod fibonacci;
+
 use std::io;
 
 fn main() {
-    fibonacci();
-}
-
-fn fibonacci() {
     println!("This program will take your input, 'n', and return the 'n'th number in the Fibonacci sequence.");
 
     println!("Please enter 'n' now.");
@@ -35,24 +33,7 @@ fn fibonacci() {
             continue;
         }
 
-        let mut fib: u128 = 1;
-        let mut l = 0;
-        let mut r = 1;
-
-        for _ in 2..= user_input {
-            fib = l + r;
-            l = r;
-            r = fib;
-        }
-
-        let fib = fib.to_string()
-            .as_bytes()
-            .rchunks(3)
-            .rev()
-            .map(std::str::from_utf8)
-            .collect::<Result<Vec<&str>, _>>()
-            .unwrap()
-            .join(",");
+        let fib = fibonacci::fib_count(user_input);
 
         if user_input == 1 {
             println!("The {user_input}st number in the Fibonacci sequence is: {fib}");
