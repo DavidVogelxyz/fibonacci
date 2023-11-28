@@ -1,4 +1,3 @@
-use std::error::Error;
 use std::io;
 use std::process;
 
@@ -7,7 +6,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build() -> Result<Config, &'static str> {
+    pub fn build() -> Config {
         loop {
             let mut input = String::new();
 
@@ -24,25 +23,24 @@ impl Config {
             };
 
             if index > 186 {
-                println!("The {input}th number in the Fibonacci sequence is so large that it cannot be stored in a 128-bit integer.");
+                println!("The {index}th number in the Fibonacci sequence is so large that it cannot be stored in a 128-bit integer.");
                 println!("The largest 'n' that the program can output is the 186th number in the sequence.");
                 println!("Please input another number between 0 and 186.");
                 continue;
             }
 
-            return Ok(Config { index });
+            return Config{ index };
         }
     }
 }
 
-pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+pub fn run(config: Config) {
     if config.index == 0 {
         println!("The {}th number in the Fibonacci sequence is: 0", config.index);
         process::exit(0);
     }
 
     let fib = fib_count(config.index);
-
     let fib = fib_commas(fib);
 
     if config.index == 1 {
@@ -54,8 +52,6 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     } else {
         println!("The {}th number in the Fibonacci sequence is: {}", config.index, fib);
     }
-
-    Ok(())
 }
 
 pub fn fib_count(index: u8) -> u128 {
@@ -141,7 +137,6 @@ mod tests {
     #[test]
     fn commas_test_one() {
         let index = 42;
-
         let fib = fib_count(index);
 
         assert_eq!("267,914,296", fib_commas(fib));
@@ -150,7 +145,6 @@ mod tests {
     #[test]
     fn commas_test_two() {
         let index = 69;
-
         let fib = fib_count(index);
 
         assert_eq!("117,669,030,460,994", fib_commas(fib));
