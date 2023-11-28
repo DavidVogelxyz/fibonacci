@@ -43,6 +43,8 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     let fib = fib_count(config.index);
 
+    let fib = fib_commas(fib);
+
     if config.index == 1 {
         println!("The {}st number in the Fibonacci sequence is: {}", config.index, fib);
     } else if config.index == 2 {
@@ -56,17 +58,21 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn fib_count(user_input: u8) -> String {
+pub fn fib_count(index: u8) -> u128 {
     let mut fib: u128 = 1;
     let mut l = 0;
     let mut r = 1;
 
-    for _ in 2..= user_input {
+    for _ in 2..= index {
         fib = l + r;
         l = r;
         r = fib;
     }
 
+    fib
+}
+
+pub fn fib_commas(fib: u128) -> String {
     let fib = fib.to_string()
         .as_bytes()
         .rchunks(3)
@@ -77,4 +83,76 @@ pub fn fib_count(user_input: u8) -> String {
         .join(",");
 
     fib
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn position_one_is_one() {
+        let index = 1;
+
+        assert_eq!(1, fib_count(index));
+    }
+
+    #[test]
+    fn position_two_is_one() {
+        let index = 2;
+
+        assert_eq!(1, fib_count(index));
+    }
+
+    #[test]
+    fn position_three_is_two() {
+        let index = 3;
+
+        assert_eq!(2, fib_count(index));
+    }
+
+    #[test]
+    fn position_four_is_three() {
+        let index = 4;
+
+        assert_eq!(3, fib_count(index));
+    }
+
+    #[test]
+    fn position_five_is_five() {
+        let index = 5;
+
+        assert_eq!(5, fib_count(index));
+    }
+
+    #[test]
+    fn position_six_is_eight() {
+        let index = 6;
+
+        assert_eq!(8, fib_count(index));
+    }
+
+    #[test]
+    fn position_seven_is_thirteen() {
+        let index = 7;
+
+        assert_eq!(13, fib_count(index));
+    }
+
+    #[test]
+    fn commas_test_one() {
+        let index = 42;
+
+        let fib = fib_count(index);
+
+        assert_eq!("267,914,296", fib_commas(fib));
+    }
+
+    #[test]
+    fn commas_test_two() {
+        let index = 69;
+
+        let fib = fib_count(index);
+
+        assert_eq!("117,669,030,460,994", fib_commas(fib));
+    }
 }
