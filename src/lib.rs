@@ -7,6 +7,9 @@ pub struct Config {
 
 impl Config {
     pub fn build() -> Config {
+        println!("This program will take your input, 'n', and return the 'n'th number in the Fibonacci sequence.");
+        println!("Please enter 'n' now.");
+
         loop {
             let mut input = String::new();
 
