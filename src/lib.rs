@@ -1,4 +1,4 @@
-use std::io;
+use std::env;
 use std::process;
 
 pub struct Config {
@@ -7,34 +7,38 @@ pub struct Config {
 
 impl Config {
     pub fn build() -> Config {
-        println!("This program will take your input, 'n', and return the 'n'th number in the Fibonacci sequence.");
-        println!("Please enter 'n' now.");
+        let args: Vec<String> = env::args().collect();
 
-        loop {
-            let mut input = String::new();
-
-            io::stdin()
-                .read_line(&mut input)
-                .expect("User input should be a valid string.");
-
-            let index: u8 = match input.trim().parse() {
-                Ok(num) => num,
-                Err(_) => {
-                    println!("Please input a number between 0 and 255.");
-                    continue;
-                }
-            };
-
-            if index > 186 {
-                println!("The {index}th number in the Fibonacci sequence is so large that it cannot be stored in a 128-bit integer.");
-                println!("The largest 'n' that the program can output is the 186th number in the sequence.");
-                println!("Please input another number between 0 and 186.");
-                continue;
-            }
-
-            return Config{ index };
+        if args.len() < 2 {
+            println!("Please enter a number as an argument.");
+            process::exit(1);
         }
+
+        let input = parse_input(&args);
+
+        let index: u8 = match input.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please enter a number between 0 and 255.");
+                process::exit(1);
+            }
+        };
+
+        if index > 186 {
+            println!("The {index}th number in the Fibonacci sequence is so large that it cannot be stored as a 128-bit integer.");
+            println!("The largest number that this program can output is the 186th number in the Fibonacci sequence.");
+            println!("Please enter a number between 0 and 186.");
+            process::exit(1);
+        }
+
+        Config{ index }
     }
+}
+
+pub fn parse_input(args: &[String]) -> &str {
+    let input = &args[1];
+
+    input
 }
 
 pub fn run(config: Config) {
