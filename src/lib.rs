@@ -9,8 +9,8 @@ impl Config {
     pub fn build() -> Config {
         let args: Vec<String> = env::args().collect();
 
-        if args.len() < 2 {
-            println!("Please enter a number between 0 and 255 as an argument.");
+        if args.len() != 2 {
+            println!("Please enter a single number between 0 and 255 as an argument.");
             process::exit(1);
         }
 
@@ -31,7 +31,7 @@ pub fn parse_input(input: &str) -> u8 {
     let index: u8 = match input.trim().parse() {
         Ok(num) => num,
         Err(_) => {
-            println!("Please enter a number between 0 and 255.");
+            println!("Please enter a single number between 0 and 255 as an argument.");
             process::exit(1);
         }
     };
