@@ -55,12 +55,16 @@ pub fn run(config: Config) {
     let fib = fib_count(config.index);
     let fib = fib_commas(fib);
 
-    if config.index == 1 {
-        println!("The {}st number in the Fibonacci sequence is: {}", config.index, fib);
-    } else if config.index == 2 {
-        println!("The {}nd number in the Fibonacci sequence is: {}", config.index, fib);
-    } else if config.index == 3 {
-        println!("The {}rd number in the Fibonacci sequence is: {}", config.index, fib);
+    if config.index < 10 || config.index > 13 && config.index < 110 || config.index > 113 {
+        if config.index % 10 == 1 {
+            println!("The {}st number in the Fibonacci sequence is: {}", config.index, fib);
+        } else if config.index % 10 == 2 {
+            println!("The {}nd number in the Fibonacci sequence is: {}", config.index, fib);
+        } else if config.index % 10 == 3{
+            println!("The {}rd number in the Fibonacci sequence is: {}", config.index, fib);
+        } else {
+            println!("The {}th number in the Fibonacci sequence is: {}", config.index, fib);
+        }
     } else {
         println!("The {}th number in the Fibonacci sequence is: {}", config.index, fib);
     }
